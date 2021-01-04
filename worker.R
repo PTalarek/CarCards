@@ -8,23 +8,10 @@ library(tibble)
 source('inst/config/config.R')
 
 # download cards
-cards = read_sheet(gsheet_url, sheet = 1, col_types = 'cccnncnnnnn') %>% 
-  clean_names() %>% 
-  filter(!is.na(year)) %>% 
-  replace(., is.na(.), '') %>% 
-  mutate(name = paste(make, model, type,
-                      paste0('(', year, ')')) %>% 
-           gsub(pattern = '\\s+', replacement = ' '))
+cards = download_data(gsheet_url)
 
 # split cards beetween players
-rows_player2 = sample(nrow(cards), nrow(cards)/2)
-
-cards_player2 = cards[rows_player2, ]
-cards_player1 = setdiff(cards, cards_player2)
-
-# shuffle
-cards_player2 = slice(cards_player2, sample(1:n()))
-cards_player1 = slice(cards_player1, sample(1:n()))
+cards_splitted = split_cards(cards)
 
 # who starts
 attacking_player = sample(2, 1)

@@ -1,0 +1,22 @@
+Package: CarCards
+Title: Classic Car Cards game
+Version: 0.0.0.9000
+Authors@R: 
+    person(given = "Paweł",
+           family = "Talarek",
+           role = c("aut", "cre"),
+           email = "talarek.pawel@gmail.com")
+Description: Play classic Car Cards game against a friend or computer
+Encoding: UTF-8
+LazyData: true
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.1
+Imports:
+  data.table,
+  dplyr,
+  googlesheets4,
+  janitor,
+  magick,
+  tibble
+
+  

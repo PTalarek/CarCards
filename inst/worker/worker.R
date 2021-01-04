@@ -29,39 +29,11 @@ while (nrow(cards_player1) > 0 & nrow(cards_player2) > 0){
 
   while(round_end == FALSE){
 
+    # show attacking card
     attacking_card = attacking_stack %>%
       tail(1)
-
-    # show attacking card
-    attacking_stack %>%
-      print()
-
-    car_name = attacking_card$name
-    card_frame = image_read('D:/R/CarCards/img/card_frame.png')
-    card_image = image_read('D:/R/CarCards/img/pic1.png')
-    attacking_card_image = image_composite(card_frame, card_image, gravity = 'North', offset = '+0+10') %>%
-      image_annotate(car_name, font = 'Agency FB', size = 27, location = '+20+230') %>%
-
-      image_annotate('Engine capacity [ccm]', font = 'Agency FB', size = 20, location = '+20+290') %>%
-      image_annotate(attacking_card$capacity, font = 'Agency FB', size = 20, location = '+320+290') %>%
-
-      image_annotate('Cylinders', font = 'Agency FB', size = 20, location = '+20+320') %>%
-      image_annotate(attacking_card$cylinders, font = 'Agency FB', size = 20, location = '+320+320') %>%
-
-      image_annotate('Engine type', font = 'Agency FB', size = 20, location = '+20+350') %>%
-      image_annotate(attacking_card$engine, font = 'Agency FB', size = 20, location = '+320+350') %>%
-
-      image_annotate('Power [HP]', font = 'Agency FB', size = 20, location = '+20+380') %>%
-      image_annotate(attacking_card$power, font = 'Agency FB', size = 20, location = '+320+380') %>%
-
-      image_annotate('Weight [kg]', font = 'Agency FB', size = 20, location = '+20+410') %>%
-      image_annotate(attacking_card$weight, font = 'Agency FB', size = 20, location = '+320+410') %>%
-
-      image_annotate('Acceleration 0-100 km/h [s]', font = 'Agency FB', size = 20, location = '+20+440') %>%
-      image_annotate(attacking_card$acceleration, font = 'Agency FB', size = 20, location = '+320+440') %>%
-
-      image_annotate('Top speed [km/h]', font = 'Agency FB', size = 20, location = '+20+470') %>%
-      image_annotate(attacking_card$vmax, font = 'Agency FB', size = 20, location = '+320+470')
+    attacking_card_image = get_card_image(attacking_card)
+    attacking_card_image
 
     # select attribute
     selected_attr = paste0(paste0('player_', attacking_player, '_name') %>%
@@ -69,12 +41,14 @@ while (nrow(cards_player1) > 0 & nrow(cards_player2) > 0){
       readline()
 
     # show defending card
-    defending_stack %>%
-      print()
+    defending_card = defending_stack %>%
+      tail(1)
+    defending_card_image = get_card_image(defending_card)
+    defending_card_image
 
     # get attacking attribute value
-    attacking_attr = attacking_card
-    select(selected_attr) %>%
+    attacking_attr = attacking_card %>%
+      select(selected_attr) %>%
       pull()
 
     # get defending attribute value

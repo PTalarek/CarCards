@@ -16,7 +16,11 @@ download_data = function(gsheet_url){
     replace(., is.na(.), '') %>%
     mutate(name = paste(make, model, type,
                         paste0('(', year, ')')) %>%
-             gsub(pattern = '\\s+', replacement = ' '))
+             gsub(pattern = '\\s+', replacement = ' '),
+           uid = paste(make, model, type, year, sep = '_') %>%
+             tolower() %>%
+             gsub(pattern = '\\s+|\\(|\\)', replacement = '') %>%
+             gsub(pattern = '\\__', replacement = '\\_'))
 
   return(cards)
 }

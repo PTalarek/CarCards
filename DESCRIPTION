@@ -13,10 +13,12 @@ Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.1
 Imports:
   data.table,
+  DBI,
   dplyr,
   googlesheets4,
   janitor,
   magick,
+  RMySQL,
   tibble
 
   

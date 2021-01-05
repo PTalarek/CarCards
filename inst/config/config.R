@@ -2,3 +2,9 @@ gsheet_url = 'https://docs.google.com/spreadsheets/d/1oxZ6CCu4WDcCZCyB4LTIqGpe0F
 inverted_attrs = c('acceleration', 'weight')
 player_1_name = 'Magda'
 player_2_name = 'Pawel'
+
+# DB connection
+dbname = "baza22707_carcards"
+host = "22707.v.tld.pl"
+username = "admin22707_carcards"
+password = ""

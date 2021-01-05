@@ -4,7 +4,7 @@ library(dplyr)
 source('inst/config/config.R')
 
 # download cards
-cards = download_data(gsheet_url)
+cards = download_data_sql(dbname, host, username, password)
 
 # split cards beetween players
 split_cards(cards) %>%

@@ -7,7 +7,7 @@
 #' @return A data frame with Car Cards
 #' @export
 
-download_data = function(gsheet_url){
+download_data_gs = function(gsheet_url){
 
   # download cards
   cards = read_sheet(gsheet_url, sheet = 1, col_types = 'cccnncnnnnn') %>%
@@ -23,6 +23,62 @@ download_data = function(gsheet_url){
              gsub(pattern = '\\__', replacement = '\\_'))
 
   return(cards)
+}
+
+#' Upload processed Car Cards to mySQL server
+#'
+#' @param cards A data frame with Car Cards
+#' @param dbname String with database name
+#' @param host String with database host
+#' @param username String with database user
+#' @param password String with database password
+#' @param newdb Logical indicating if new \code{cards} table should be created
+#' @importFrom DBI dbConnect dbGetQuery dbSendQuery dbWriteTable sqlCreateTable
+#' @importFrom RMySQL MySQL
+#' @return Content of \code{cards} SQL table
+#' @export
+upload_data_sql = function(cards, dbname, host, username, password, newdb = FALSE){
+
+  # create connection
+  conn = dbConnect(MySQL(),
+                   dbname = dbname,
+                   host = host,
+                   username = username,
+                   password = password)
+
+  # create table
+  if (newdb){
+    dbSendQuery(conn, sqlCreateTable(conn, "cards", cards))
+  }
+
+  # populate table
+  dbWriteTable(conn, 'cards', cards, overwrite = TRUE)
+
+  # print table
+  dbGetQuery(conn, 'SELECT * FROM cards')
+}
+
+#' Download Car Cards from mySQL server
+#'
+#' @param dbname String with database name
+#' @param host String with database host
+#' @param username String with database user
+#' @param password String with database password
+#' @importFrom DBI dbConnect dbGetQuery dbSendQuery dbWriteTable sqlCreateTable
+#' @importFrom RMySQL MySQL
+#' @return Content of \code{cards} SQL table
+#' @export
+download_data_sql = function(dbname, host, username, password){
+
+  # create connection
+  conn = dbConnect(MySQL(),
+                   dbname = dbname,
+                   host = host,
+                   username = username,
+                   password = password)
+
+  # get the data
+  dbGetQuery(conn, 'SELECT * FROM cards')
 }
 
 #' Split cards between players an shuffle
